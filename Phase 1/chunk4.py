@@ -1,8 +1,8 @@
-# '''
-#     Chunk 4: Add tags (a list of strings) to each note, and a find_by_tag(notes_list, tag)
-#     function. Test: add notes with different tags, search one tag, confirm only matching 
-#     notes return.
-# '''
+'''
+    Chunk 4: Add tags (a list of strings) to each note, and a find_by_tag(notes_list, tag)
+    function. Test: add notes with different tags, search one tag, confirm only matching 
+    notes return.
+'''
 
 
 def add_note(notes_list, title, content,tags):
