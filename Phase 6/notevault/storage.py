@@ -1,9 +1,8 @@
-import argparse
 import json
-
 import logging
 logging.basicConfig(level=logging.INFO)
-from .models import Note
+from .models import Note, model
+from sentence_transformers import util
 
 class NoteBook:
     def __init__(self, filename:str)-> None:
@@ -14,12 +13,23 @@ class NoteBook:
         self.filename = filename
         self.notes = []
 
+    def semantic_search(self, query: str, top_n: int = 2) -> list[Note]:
+        query_embedding = model.encode(query)
+        ranked_notes = sorted(
+            self.notes,
+            key=lambda note: float(util.cos_sim(query_embedding, note.embedding)[0][0]),
+            reverse=True
+        )
+        return ranked_notes[:top_n]
+        
+        
     def add(self, title:str, content:str, tags:list[str]) -> None:
         '''
             Create and store a note, then save the updated notebook to disk.
         '''
         
-        note = Note(title, content, tags)
+        note = Note(title, content, tags,embedding=None)
+        # print(f"Embedding shape: {note.embedding.shape}")
         self.notes.append(note)
         self.save()
 

@@ -1,6 +1,4 @@
 import argparse
-import json
-
 import logging
 logging.basicConfig(level=logging.INFO)
 from .storage import NoteBook
@@ -13,6 +11,10 @@ add_parser = subparsers.add_parser("add")
 add_parser.add_argument("title")
 add_parser.add_argument("content")
 add_parser.add_argument("--tags", default="")
+
+semantic_parser = subparsers.add_parser("search-semantic")
+semantic_parser.add_argument("query",type=str)
+
 
 subparsers.add_parser("view")
 
@@ -42,3 +44,10 @@ elif args.command == "search":
     matches = nb.find_by_tag(args.tag)
     for note in matches:
         print(note)
+        
+elif args.command == "search-semantic":
+    matches = nb.semantic_search(args.query) 
+    for note in matches:
+        print(note)
+        
+    
